@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathy - Your Complete Health Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for professional animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .brand-teal-dark { background-color: #0F766E; }
+        .brand-teal { color: #0D9488; }
+        .brand-teal-bg { background-color: #0D9488; }
+        
+        .particle-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 1;
+        }
+        .particle {
+            position: absolute; background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%; bottom: -20px;
+        }
+        .sticky-search {
+            transition: all 0.3s ease-in-out;
+        }
+        .review-carousel-container {
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="app-container" class="max-w-4xl mx-auto lg:shadow-2xl lg:my-8 lg:rounded-2xl bg-white">
+
+        <!-- HEADER SECTION (Non-sticky part) -->
+        <header id="main-header" class="relative brand-teal-dark text-white overflow-hidden rounded-t-2xl">
+            <div class="particle-container" id="particle-container"></div>
+            <div id="header-content" class="relative z-10 p-4 pb-6">
+                <!-- Top Bar -->
+                <div class="flex justify-between items-center">
+                    <button class="flex items-center space-x-2 text-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <div>
+                            <div class="flex items-center"><h1 class="font-bold text-lg">Kanchrapara</h1><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-80"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                        </div>
+                    </button>
+                    <img src="https://placehold.co/100x100/E0F2F1/0D9488?text=S" class="w-10 h-10 rounded-full border-2 border-white/50 shadow-lg" alt="User profile"/>
+                </div>
+            </div>
+        </header>
+
+        <!-- STICKY SEARCH BAR -->
+        <div id="sticky-search-wrapper" class="sticky top-0 z-30 brand-teal-dark p-4 transition-all duration-300">
+             <div class="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input id="search-input" type="text" class="w-full bg-white text-gray-800 border-none rounded-full pl-12 pr-4 py-4 focus:outline-none focus:ring-4 focus:ring-teal-300/50 shadow-lg">
+            </div>
+        </div>
+
+        <main class="space-y-12 p-4 md:p-6">
+            
+            <!-- NEW ACTIONABLE GRID -->
+            <section class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="#" class="block bg-teal-50 border border-teal-100 rounded-xl p-6 hover:border-teal-300 transition-colors text-center">
+                        <h3 class="font-bold text-teal-800">Book Physical Consultation</h3>
+                    </a>
+                    <a href="#" class="block bg-blue-50 border border-blue-100 rounded-xl p-6 hover:border-blue-300 transition-colors text-center">
+                        <h3 class="font-bold text-blue-800">Book Video Consultation</h3>
+                    </a>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <a href="#" class="block bg-indigo-50 border border-indigo-100 rounded-xl p-4 hover:border-indigo-300 transition-colors text-center">
+                        <h3 class="font-semibold text-indigo-800 text-sm">Report Summariser</h3>
+                    </a>
+                    <a href="#" class="block bg-rose-50 border border-rose-100 rounded-xl p-4 hover:border-rose-300 transition-colors text-center">
+                        <h3 class="font-semibold text-rose-800 text-sm">Medical Records</h3>
+                    </a>
+                    <a href="#" class="block bg-amber-50 border border-amber-100 rounded-xl p-4 hover:border-amber-300 transition-colors text-center">
+                        <h3 class="font-semibold text-amber-800 text-sm">Medication Tracker</h3>
+                    </a>
+                </div>
+            </section>
+
+            <!-- DOCTOR CATEGORIES -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Consult a Specialist</h2>
+                <div class="grid grid-cols-4 gap-4 text-center">
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/0D9488?text=GP" alt="GP" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">General</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/DB2777?text=GY" alt="GY" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Gynecology</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/2563EB?text=SK" alt="SK" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Dermatology</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/9333EA?text=CD" alt="CD" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Cardiology</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/f59e0b?text=ENT" alt="ENT" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">ENT</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/16a34a?text=EYE" alt="EYE" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Ophthalmology</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/be123c?text=SEX" alt="SEX" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Sexology</p></a>
+                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-200 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-1/2 h-1/2 text-gray-600"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></div><p class="text-xs font-semibold">More</p></a>
+                </div>
+            </section>
+            
+            <!-- AI FEATURES -->
+            <section class="bg-gray-50 rounded-xl p-6 space-y-4">
+                 <a href="#" class="block text-center p-4 bg-white rounded-lg shadow-sm border">
+                    <h3 class="font-bold text-teal-800">Find the Right Doctor</h3>
+                    <p class="text-sm text-gray-600">Not sure? Ask our AI to guide you.</p>
+                 </a>
+                 <a href="#" class="block text-center p-4 bg-white rounded-lg shadow-sm border">
+                    <h3 class="font-bold text-teal-800">Get Instant Relief</h3>
+                    <p class="text-sm text-gray-600">Ask our AI Health Assistant for guidance now.</p>
+                 </a>
+            </section>
+
+            <!-- VOICE CONSULTATION -->
+            <section>
+                 <button class="w-full flex items-center justify-center text-center p-4 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    Book Voice Consultation Now
+                </button>
+            </section>
+            
+             <!-- REVIEWS & TRUST -->
+            <section class="relative">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">What Our Users Say</h2>
+                <div class="overflow-hidden">
+                    <div id="review-carousel" class="flex transition-transform duration-500 ease-in-out">
+                        <div class="w-full flex-shrink-0 p-1"><div class="bg-gray-50 border p-4 rounded-lg"><p class="text-gray-700">"Breathy made it so easy to find a doctor for my mother. The video consultation was seamless. Highly recommended!"</p><p class="text-right font-bold text-sm mt-2">- Suman D.</p></div></div>
+                        <div class="w-full flex-shrink-0 p-1"><div class="bg-gray-50 border p-4 rounded-lg"><p class="text-gray-700">"The AI report summarizer is a game-changer! I finally understand my lab results without confusion."</p><p class="text-right font-bold text-sm mt-2">- Priya K.</p></div></div>
+                        <div class="w-full flex-shrink-0 p-1"><div class="bg-gray-50 border p-4 rounded-lg"><p class="text-gray-700">"Tracking my entire family's medication in one place has been a lifesaver. Thank you, Breathy!"</p><p class="text-right font-bold text-sm mt-2">- Ankit R.</p></div></div>
+                    </div>
+                </div>
+                <button id="prev-review" class="absolute top-1/2 -left-2 bg-white p-2 rounded-full shadow border text-gray-600">&lt;</button>
+                <button id="next-review" class="absolute top-1/2 -right-2 bg-white p-2 rounded-full shadow border text-gray-600">&gt;</button>
+            </section>
+            
+            <!-- WHY CHOOSE US -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Why Choose Breathy?</h2>
+                 <div class="space-y-3">
+                     <div class="flex items-start space-x-3"><div class="mt-1 w-5 h-5 brand-teal-bg rounded-full flex-shrink-0"></div><p>Access to top-rated, verified doctors across 50+ specialties.</p></div>
+                     <div class="flex items-start space-x-3"><div class="mt-1 w-5 h-5 brand-teal-bg rounded-full flex-shrink-0"></div><p>Securely store and manage all your family's health records in one place.</p></div>
+                     <div class="flex items-start space-x-3"><div class="mt-1 w-5 h-5 brand-teal-bg rounded-full flex-shrink-0"></div><p>Instant AI-powered summaries of your lab reports for better understanding.</p></div>
+                 </div>
+            </section>
+            
+            <!-- FINAL CTA -->
+            <section class="bg-teal-600 text-white rounded-xl p-8 text-center">
+                <h2 class="text-2xl font-extrabold">Still Thinking?</h2>
+                <p class="mt-2 opacity-90">Don't delay your health. Consult with a top doctor now.</p>
+                <button class="mt-6 bg-white text-teal-700 font-bold px-8 py-3 rounded-full shadow-lg text-lg">Find a Doctor Now</button>
+            </section>
+            
+        </main>
+        
+        <div class="h-20"></div> <!-- Spacer for bottom nav -->
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // GSAP particle animation
+            const particleContainer = document.getElementById('particle-container');
+            for(let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particleContainer.appendChild(particle);
+
+                gsap.to(particle, {
+                    y: "-105vh", duration: Math.random() * 15 + 10,
+                    ease: "none", repeat: -1, delay: Math.random() * 10,
+                });
+            }
+
+            // GSAP parallax scroll effect
+            gsap.to("#header-content", {
+                scrollTrigger: { trigger: "header", start: "top top", scrub: 1.5 },
+                yPercent: 25, ease: "none"
+            });
+            
+            // Sticky Search Bar
+            const stickySearch = document.getElementById('sticky-search-wrapper');
+            const mainHeader = document.getElementById('main-header');
+            const observer = new IntersectionObserver(
+                ([e]) => e.target.classList.toggle('shadow-lg', e.intersectionRatio < 1),
+                { threshold: [1] }
+            );
+            observer.observe(stickySearch);
+
+            // Dynamic Search Placeholder
+            const searchInput = document.getElementById('search-input');
+            const placeholders = [ "Search doctor's name...", "Search specialty...", "Search by symptom...", "Search clinic..." ];
+            let currentPlaceholder = 0;
+            setInterval(() => {
+                currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
+                searchInput.style.transition = 'opacity 0.5s';
+                searchInput.style.opacity = 0.7;
+                setTimeout(() => {
+                    searchInput.placeholder = placeholders[currentPlaceholder];
+                    searchInput.style.opacity = 1;
+                }, 500);
+            }, 3000);
+
+            // Review Carousel
+            const carousel = document.getElementById('review-carousel');
+            const prevBtn = document.getElementById('prev-review');
+            const nextBtn = document.getElementById('next-review');
+            const reviews = carousel.children;
+            let reviewIndex = 0;
+
+            function showReview(index) {
+                const offset = -index * 100;
+                carousel.style.transform = `translateX(${offset}%)`;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                reviewIndex = (reviewIndex + 1) % reviews.length;
+                showReview(reviewIndex);
+            });
+
+             prevBtn.addEventListener('click', () => {
+                reviewIndex = (reviewIndex - 1 + reviews.length) % reviews.length;
+                showReview(reviewIndex);
+            });
+
+        });
+    </script>
+</body>
+</html>
+
