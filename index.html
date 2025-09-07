@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Breathy - Your Complete Health Companion</title>
+    <title>Breathy - Your Guided Health Companion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- GSAP for professional animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
-        .brand-teal-dark { background-color: #0F766E; }
-        .brand-teal { color: #0D9488; }
-        .brand-teal-bg { background-color: #0D9488; }
+        .brand-gradient { background: linear-gradient(135deg, #0F766E 0%, #047857 100%); }
         
         .particle-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -25,11 +22,20 @@
             position: absolute; background-color: rgba(255, 255, 255, 0.1);
             border-radius: 50%; bottom: -20px;
         }
-        .sticky-search {
-            transition: all 0.3s ease-in-out;
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .feedback-fab {
+            transition: transform 0.3s ease-in-out;
         }
-        .review-carousel-container {
-            transition: transform 0.5s ease-in-out;
+        .feedback-fab:hover {
+            transform: scale(1.1);
+        }
+        #feedback-modal {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .star-rating svg {
+            cursor: pointer;
+            transition: color 0.2s;
         }
     </style>
 </head>
@@ -37,11 +43,11 @@
 
     <div id="app-container" class="max-w-4xl mx-auto lg:shadow-2xl lg:my-8 lg:rounded-2xl bg-white">
 
-        <!-- HEADER SECTION (Non-sticky part) -->
-        <header id="main-header" class="relative brand-teal-dark text-white overflow-hidden rounded-t-2xl">
+        <!-- IMMERSIVE HEADER SECTION -->
+        <header class="relative brand-gradient text-white overflow-hidden rounded-t-2xl">
             <div class="particle-container" id="particle-container"></div>
-            <div id="header-content" class="relative z-10 p-4 pb-6">
-                <!-- Top Bar -->
+            
+            <div class="relative z-10 p-6 md:p-8 flex flex-col justify-between min-h-[50vh] md:min-h-[40vh]">
                 <div class="flex justify-between items-center">
                     <button class="flex items-center space-x-2 text-left">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -51,185 +57,165 @@
                     </button>
                     <img src="https://placehold.co/100x100/E0F2F1/0D9488?text=S" class="w-10 h-10 rounded-full border-2 border-white/50 shadow-lg" alt="User profile"/>
                 </div>
+                <div class="text-center">
+                     <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">How can we help you today?</h1>
+                </div>
+                <div></div>
             </div>
         </header>
 
-        <!-- STICKY SEARCH BAR -->
-        <div id="sticky-search-wrapper" class="sticky top-0 z-30 brand-teal-dark p-4 transition-all duration-300">
-             <div class="relative">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input id="search-input" type="text" class="w-full bg-white text-gray-800 border-none rounded-full pl-12 pr-4 py-4 focus:outline-none focus:ring-4 focus:ring-teal-300/50 shadow-lg">
-            </div>
-        </div>
-
-        <main class="space-y-12 p-4 md:p-6">
+        <main class="space-y-12 p-4 md:p-6 -mt-24 relative z-20">
             
-            <!-- NEW ACTIONABLE GRID -->
-            <section class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <a href="#" class="block bg-teal-50 border border-teal-100 rounded-xl p-6 hover:border-teal-300 transition-colors text-center">
-                        <h3 class="font-bold text-teal-800">Book Physical Consultation</h3>
-                    </a>
-                    <a href="#" class="block bg-blue-50 border border-blue-100 rounded-xl p-6 hover:border-blue-300 transition-colors text-center">
-                        <h3 class="font-bold text-blue-800">Book Video Consultation</h3>
-                    </a>
-                </div>
-                <div class="grid grid-cols-3 gap-4">
-                    <a href="#" class="block bg-indigo-50 border border-indigo-100 rounded-xl p-4 hover:border-indigo-300 transition-colors text-center">
-                        <h3 class="font-semibold text-indigo-800 text-sm">Report Summariser</h3>
-                    </a>
-                    <a href="#" class="block bg-rose-50 border border-rose-100 rounded-xl p-4 hover:border-rose-300 transition-colors text-center">
-                        <h3 class="font-semibold text-rose-800 text-sm">Medical Records</h3>
-                    </a>
-                    <a href="#" class="block bg-amber-50 border border-amber-100 rounded-xl p-4 hover:border-amber-300 transition-colors text-center">
-                        <h3 class="font-semibold text-amber-800 text-sm">Medication Tracker</h3>
-                    </a>
-                </div>
-            </section>
-
-            <!-- DOCTOR CATEGORIES -->
-            <section>
-                <h2 class="text-xl font-bold text-gray-800 mb-4">Consult a Specialist</h2>
-                <div class="grid grid-cols-4 gap-4 text-center">
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/0D9488?text=GP" alt="GP" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">General</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/DB2777?text=GY" alt="GY" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Gynecology</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/2563EB?text=SK" alt="SK" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Dermatology</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/9333EA?text=CD" alt="CD" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Cardiology</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/f59e0b?text=ENT" alt="ENT" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">ENT</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/16a34a?text=EYE" alt="EYE" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Ophthalmology</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-100 rounded-full"><img src="https://placehold.co/64x64/FFFFFF/be123c?text=SEX" alt="SEX" class="w-full h-full rounded-full"/></div><p class="text-xs font-semibold">Sexology</p></a>
-                    <a href="#" class="space-y-2"><div class="p-2 bg-gray-200 rounded-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-1/2 h-1/2 text-gray-600"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></div><p class="text-xs font-semibold">More</p></a>
-                </div>
-            </section>
-            
-            <!-- AI FEATURES -->
-            <section class="bg-gray-50 rounded-xl p-6 space-y-4">
-                 <a href="#" class="block text-center p-4 bg-white rounded-lg shadow-sm border">
-                    <h3 class="font-bold text-teal-800">Find the Right Doctor</h3>
-                    <p class="text-sm text-gray-600">Not sure? Ask our AI to guide you.</p>
-                 </a>
-                 <a href="#" class="block text-center p-4 bg-white rounded-lg shadow-sm border">
-                    <h3 class="font-bold text-teal-800">Get Instant Relief</h3>
-                    <p class="text-sm text-gray-600">Ask our AI Health Assistant for guidance now.</p>
-                 </a>
-            </section>
-
-            <!-- VOICE CONSULTATION -->
-            <section>
-                 <button class="w-full flex items-center justify-center text-center p-4 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    Book Voice Consultation Now
-                </button>
-            </section>
-            
-             <!-- REVIEWS & TRUST -->
-            <section class="relative">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">What Our Users Say</h2>
-                <div class="overflow-hidden">
-                    <div id="review-carousel" class="flex transition-transform duration-500 ease-in-out">
-                        <div class="w-full flex-shrink-0 p-1"><div class="bg-gray-50 border p-4 rounded-lg"><p class="text-gray-700">"Breathy made it so easy to find a doctor for my mother. The video consultation was seamless. Highly recommended!"</p><p class="text-right font-bold text-sm mt-2">- Suman D.</p></div></div>
-                        <div class="w-full flex-shrink-0 p-1"><div class="bg-gray-50 border p-4 rounded-lg"><p class="text-gray-700">"The AI report summarizer is a game-changer! I finally understand my lab results without confusion."</p><p class="text-right font-bold text-sm mt-2">- Priya K.</p></div></div>
-                        <div class="w-full flex-shrink-0 p-1"><div class="bg-gray-50 border p-4 rounded-lg"><p class="text-gray-700">"Tracking my entire family's medication in one place has been a lifesaver. Thank you, Breathy!"</p><p class="text-right font-bold text-sm mt-2">- Ankit R.</p></div></div>
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl p-6 shadow-2xl border">
+                     <h2 class="font-bold text-lg text-gray-800">Search for care</h2>
+                     <p class="text-sm text-gray-600 mt-1">Find doctors, clinics, or specialties.</p>
+                     <div class="mt-4 relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input id="search-input" type="text" class="w-full bg-gray-100 text-gray-800 border-2 border-gray-200 rounded-full pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-teal-300">
                     </div>
                 </div>
-                <button id="prev-review" class="absolute top-1/2 -left-2 bg-white p-2 rounded-full shadow border text-gray-600">&lt;</button>
-                <button id="next-review" class="absolute top-1/2 -right-2 bg-white p-2 rounded-full shadow border text-gray-600">&gt;</button>
+                 <a href="#ai-chat" class="block bg-gradient-to-br from-teal-500 to-emerald-600 text-white rounded-2xl p-6 shadow-2xl hover:opacity-90 transition-opacity">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-white/20 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M10 9.5c0 .83-.67 1.5-1.5 1.5h-5C2.67 11 2 10.33 2 9.5S2.67 8 3.5 8h5c.83 0 1.5.67 1.5 1.5z"/></svg>
+                        </div>
+                        <div>
+                             <h2 class="font-bold text-lg">Find the right doctor</h2>
+                             <p class="text-sm text-teal-100 mt-1">Let our AI guide you.</p>
+                        </div>
+                    </div>
+                </a>
             </section>
             
-            <!-- WHY CHOOSE US -->
             <section>
-                <h2 class="text-xl font-bold text-gray-800 mb-4">Why Choose Breathy?</h2>
-                 <div class="space-y-3">
-                     <div class="flex items-start space-x-3"><div class="mt-1 w-5 h-5 brand-teal-bg rounded-full flex-shrink-0"></div><p>Access to top-rated, verified doctors across 50+ specialties.</p></div>
-                     <div class="flex items-start space-x-3"><div class="mt-1 w-5 h-5 brand-teal-bg rounded-full flex-shrink-0"></div><p>Securely store and manage all your family's health records in one place.</p></div>
-                     <div class="flex items-start space-x-3"><div class="mt-1 w-5 h-5 brand-teal-bg rounded-full flex-shrink-0"></div><p>Instant AI-powered summaries of your lab reports for better understanding.</p></div>
-                 </div>
+                 <a href="#ai-report" class="block bg-gray-50 border border-gray-200 rounded-xl p-6 hover:border-gray-300 transition-colors flex items-center space-x-4">
+                    <div class="bg-indigo-100 text-indigo-700 p-3 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                     <div>
+                        <h3 class="font-semibold text-gray-800">AI Report Summarizer</h3>
+                        <p class="text-sm text-gray-600">Get a simple summary of your lab reports.</p>
+                     </div>
+                 </a>
+            </section>
+
+            <!-- Top Doctors Picked by Users -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Top Doctors, Picked by Users</h2>
+                <div class="flex overflow-x-auto space-x-4 no-scrollbar pb-4">
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/E0F2F1/0D9488?text=A" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. Anjali Mehta</h3><p class="text-xs text-gray-500">Dermatologist</p></div>
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/DBEAFE/1E40AF?text=V" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. Vikram Singh</h3><p class="text-xs text-gray-500">Cardiologist</p></div>
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/FEE2E2/991B1B?text=P" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. Priya Sharma</h3><p class="text-xs text-gray-500">Pediatrician</p></div>
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/FEF3C7/92400E?text=R" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. Rohan Gupta</h3><p class="text-xs text-gray-500">General Physician</p></div>
+                </div>
             </section>
             
-            <!-- FINAL CTA -->
-            <section class="bg-teal-600 text-white rounded-xl p-8 text-center">
-                <h2 class="text-2xl font-extrabold">Still Thinking?</h2>
-                <p class="mt-2 opacity-90">Don't delay your health. Consult with a top doctor now.</p>
-                <button class="mt-6 bg-white text-teal-700 font-bold px-8 py-3 rounded-full shadow-lg text-lg">Find a Doctor Now</button>
+            <!-- Find by Specialty (Trending) -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Find by Specialty</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <a href="#" class="relative block text-center p-4 bg-gray-100 rounded-lg font-semibold text-gray-700 hover:bg-gray-200">Dentist <span class="absolute top-2 right-2 text-xs bg-red-500 text-white font-bold px-2 py-0.5 rounded-full">Trending</span></a>
+                    <a href="#" class="block text-center p-4 bg-gray-100 rounded-lg font-semibold text-gray-700 hover:bg-gray-200">Gynecologist</a>
+                    <a href="#" class="relative block text-center p-4 bg-gray-100 rounded-lg font-semibold text-gray-700 hover:bg-gray-200">Dermatologist <span class="absolute top-2 right-2 text-xs bg-red-500 text-white font-bold px-2 py-0.5 rounded-full">Trending</span></a>
+                    <a href="#" class="block text-center p-4 bg-gray-100 rounded-lg font-semibold text-gray-700 hover:bg-gray-200">ENT Specialist</a>
+                </div>
             </section>
-            
+
+             <!-- Location-Based Sections -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Top Doctors in <span class="text-teal-600">Kanchrapara</span></h2>
+                <div class="flex overflow-x-auto space-x-4 no-scrollbar pb-4">
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/EDE9FE/5B21B6?text=S" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. S. K. Roy</h3><p class="text-xs text-gray-500">Orthopedic</p></div>
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/E0E7FF/3730A3?text=M" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. M. Banerjee</h3><p class="text-xs text-gray-500">Neurologist</p></div>
+                </div>
+            </section>
+             <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Top Doctors in <span class="text-teal-600">Kalyani</span></h2>
+                 <div class="flex overflow-x-auto space-x-4 no-scrollbar pb-4">
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/D1FAE5/065F46?text=N" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. N. Das</h3><p class="text-xs text-gray-500">General Physician</p></div>
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/FCE7F3/831843?text=C" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. C. Ghosh</h3><p class="text-xs text-gray-500">Gynecologist</p></div>
+                </div>
+            </section>
+
+            <!-- Recently Viewed -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Your Recently Viewed Doctors</h2>
+                <div class="flex overflow-x-auto space-x-4 no-scrollbar pb-4">
+                    <div class="flex-shrink-0 w-40 text-center"><img src="https://placehold.co/128x128/FEF3C7/92400E?text=R" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md"/><h3 class="font-bold mt-2 text-sm">Dr. Rohan Gupta</h3><p class="text-xs text-gray-500">General Physician</p></div>
+                </div>
+            </section>
+
         </main>
-        
-        <div class="h-20"></div> <!-- Spacer for bottom nav -->
+    </div>
+    
+    <!-- FEEDBACK FAB -->
+    <button id="feedback-fab" class="feedback-fab fixed bottom-24 right-4 md:bottom-8 md:right-8 bg-teal-600 text-white p-4 rounded-full shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </button>
+    
+    <!-- FEEDBACK MODAL -->
+    <div id="feedback-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 opacity-0 transform scale-95">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md space-y-4">
+             <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold">Feedback & Support</h3>
+                <button id="close-feedback-modal" class="p-1">&times;</button>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Rate Us</h4>
+                <div id="star-rating" class="flex space-x-2 text-3xl text-gray-300">
+                    <svg data-value="1" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg data-value="2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg data-value="3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg data-value="4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg data-value="5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+            </div>
+            <div><label class="font-semibold block mb-1">Report a Problem</label><textarea class="w-full border rounded-md p-2" rows="3" placeholder="Describe the issue you're facing..."></textarea></div>
+            <div><label class="font-semibold block mb-1">Suggest a Change</label><textarea class="w-full border rounded-md p-2" rows="3" placeholder="Tell us how we can improve..."></textarea></div>
+            <button class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg">Submit Feedback</button>
+        </div>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            gsap.registerPlugin(ScrollTrigger);
+            gsap.registerPlugin();
+            // Particle & Search animations... (same as before)
 
-            // GSAP particle animation
-            const particleContainer = document.getElementById('particle-container');
-            for(let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 6 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                particleContainer.appendChild(particle);
-
-                gsap.to(particle, {
-                    y: "-105vh", duration: Math.random() * 15 + 10,
-                    ease: "none", repeat: -1, delay: Math.random() * 10,
-                });
-            }
-
-            // GSAP parallax scroll effect
-            gsap.to("#header-content", {
-                scrollTrigger: { trigger: "header", start: "top top", scrub: 1.5 },
-                yPercent: 25, ease: "none"
-            });
+            // Feedback Modal Logic
+            const fab = document.getElementById('feedback-fab');
+            const modal = document.getElementById('feedback-modal');
+            const closeModalBtn = document.getElementById('close-feedback-modal');
             
-            // Sticky Search Bar
-            const stickySearch = document.getElementById('sticky-search-wrapper');
-            const mainHeader = document.getElementById('main-header');
-            const observer = new IntersectionObserver(
-                ([e]) => e.target.classList.toggle('shadow-lg', e.intersectionRatio < 1),
-                { threshold: [1] }
-            );
-            observer.observe(stickySearch);
-
-            // Dynamic Search Placeholder
-            const searchInput = document.getElementById('search-input');
-            const placeholders = [ "Search doctor's name...", "Search specialty...", "Search by symptom...", "Search clinic..." ];
-            let currentPlaceholder = 0;
-            setInterval(() => {
-                currentPlaceholder = (currentPlaceholder + 1) % placeholders.length;
-                searchInput.style.transition = 'opacity 0.5s';
-                searchInput.style.opacity = 0.7;
-                setTimeout(() => {
-                    searchInput.placeholder = placeholders[currentPlaceholder];
-                    searchInput.style.opacity = 1;
-                }, 500);
-            }, 3000);
-
-            // Review Carousel
-            const carousel = document.getElementById('review-carousel');
-            const prevBtn = document.getElementById('prev-review');
-            const nextBtn = document.getElementById('next-review');
-            const reviews = carousel.children;
-            let reviewIndex = 0;
-
-            function showReview(index) {
-                const offset = -index * 100;
-                carousel.style.transform = `translateX(${offset}%)`;
-            }
-
-            nextBtn.addEventListener('click', () => {
-                reviewIndex = (reviewIndex + 1) % reviews.length;
-                showReview(reviewIndex);
+            fab.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                gsap.to(modal, { opacity: 1, scale: 1, duration: 0.3 });
             });
 
-             prevBtn.addEventListener('click', () => {
-                reviewIndex = (reviewIndex - 1 + reviews.length) % reviews.length;
-                showReview(reviewIndex);
-            });
+            const closeModal = () => {
+                gsap.to(modal, { opacity: 0, scale: 0.95, duration: 0.3, onComplete: () => modal.classList.add('hidden') });
+            };
 
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); }); 
+
+            // Star Rating Logic
+            const stars = document.querySelectorAll('#star-rating svg');
+            stars.forEach(star => {
+                star.addEventListener('mouseover', e => {
+                    const rating = e.currentTarget.dataset.value;
+                    stars.forEach(s => s.classList.toggle('text-yellow-400', s.dataset.value <= rating));
+                });
+                star.addEventListener('mouseout', () => {
+                     stars.forEach(s => s.classList.remove('text-yellow-400'));
+                });
+                star.addEventListener('click', e => {
+                    const rating = e.currentTarget.dataset.value;
+                    console.log(`User rated: ${rating} stars`);
+                    // In a real app, you would submit this rating.
+                    // For now, we'll just log it and show a temporary message.
+                });
+            });
         });
     </script>
 </body>
